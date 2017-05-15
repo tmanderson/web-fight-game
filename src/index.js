@@ -1,5 +1,8 @@
 import 'styles/main.scss';
 import Engine from './core/Engine';
+import AudioPlayer from './core/AudioPlayer';
+
+const sfx = AudioPlayer.load('winner');
 
 import Patrick from './fighters/Patrick';
 
@@ -43,9 +46,16 @@ player2.flip('y');
 engine.add(player1);
 engine.add(player2);
 
+let winner = false;
+
 engine.ontick = function() {
   hb1.dataset.value = player1.health;
   hb2.dataset.value = player2.health;
+
+  if(!winner && (player1.health <= 0 || player2.health <= 0)) {
+    winner = true;
+    sfx.play();
+  }
 }
 
 engine.start();

@@ -1,4 +1,7 @@
 import Sprite from './Sprite';
+import AudioPlayer from './AudioPlayer';
+
+const sfx = AudioPlayer.load('punch1');
 
 export default class Fighter extends Sprite {
   health = 100;
@@ -19,12 +22,18 @@ export default class Fighter extends Sprite {
     other.health -= 10;
     this.attacking = false;
 
+    sfx.play();
+
     return true;
   }
 
   render({ keys }) {
     if(this.health <= 0) {
-      this.el.parentNode.removeChild(this.el);
+      if(this.transform._rotation[2] > 0) return;
+      this.el.style.transformOrigin = 'center bottom';
+      this.transform.rotate(Math.PI/2);
+      super.render();
+      return;
     }
 
     if(keys.includes(this.controls.left)) {
@@ -41,10 +50,10 @@ export default class Fighter extends Sprite {
 
     const a = this.animation.name;
 
-    if(keys.includes(this.controls.jump)) this.play('jump'); // space
-    else if(keys.includes(this.controls.kick)) this.play('kick'); // k
-    else if(keys.includes(this.controls.lpunch)) this.play('lpunch'); // l
-    else if(keys.includes(this.controls.rpunch)) this.play('rpunch'); // p
+    if(keys.includes(this.controls.jump)) this.play('jump');
+    else if(keys.includes(this.controls.kick)) this.play('kick');
+    else if(keys.includes(this.controls.lpunch)) this.play('lpunch');
+    else if(keys.includes(this.controls.rpunch)) this.play('rpunch');
 
     super.render();
 

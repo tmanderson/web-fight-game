@@ -18,7 +18,7 @@ module.exports = {
       path.resolve(__dirname, 'src'),
       path.resolve(__dirname, 'assets')
     ],
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx', '.scss', '.mp3'],
   },
 
   output: {
@@ -66,6 +66,10 @@ module.exports = {
           },
         ]
       },
+      {
+        test: /\.(gif|jpg|png|mp3|aac|ogg)$/,
+        loader: 'file-loader'
+      }
     ]
   },
   plugins: [
